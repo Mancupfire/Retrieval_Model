@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
 
-with open('singapore-keywords_train.json', 'r') as f:
+with open('./datasets/singapore-keywords_train.json', 'r') as f:
     train_data = json.load(f)
 
 keywords = list(train_data['np2count'].keys())
@@ -52,7 +52,7 @@ for kw in train_data['np2rests'].keys():
 
 keyword_embeddings = model.encode(list(keyword_set))
 
-with open('singapore-keywords_test.json', 'r') as r:
+with open('./datasets/singapore-keywords_test.json', 'r') as r:
     test_data = json.load(r)
 
 user_keywords = list(test_data['np2reviews'].keys())
@@ -101,17 +101,17 @@ if __name__ == "__main__":
             restaurant_names = [restaurant_set[idx] for idx in result]
             print(f"The result for user {i} is: {restaurant_names}")
 
-csv_file_path = "./result/results.csv"
+# csv_file_path = "./result/results.csv"
 
-with open(csv_file_path, mode="w", newline="") as file:
-    fieldnames = ['number', 'user', 'restaurant_name']
-    writer = csv.DictWriter(file, fieldnames=fieldnames)
-    writer.writeheader()
-    number = 1
-    for user, restaurant_indices in zip(test_users, results):
-        for idx in restaurant_indices:
-            restaurant_name = restaurant_set[idx]
-            writer.writerow({'number': number, 'user': user, 'restaurant_name': restaurant_name})
-            number += 1
+# with open(csv_file_path, mode="w", newline="") as file:
+#     fieldnames = ['number', 'user', 'restaurant_name']
+#     writer = csv.DictWriter(file, fieldnames=fieldnames)
+#     writer.writeheader()
+#     number = 1
+#     for user, restaurant_indices in zip(test_users, results):
+#         for idx in restaurant_indices:
+#             restaurant_name = restaurant_set[idx]
+#             writer.writerow({'number': number, 'user': user, 'restaurant_name': restaurant_name})
+#             number += 1
 
-print(f"\nResults saved to: {csv_file_path}")
+# print(f"\nResults saved to: {csv_file_path}")
