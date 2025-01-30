@@ -8,7 +8,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
 
-with open('singapore-keywords_train.json', 'r') as f:
+with open('./datasets/singapore-keywords_train.json', 'r') as f:
     train_data = json.load(f)
 
 keywords = list(train_data['np2count'].keys())
@@ -50,7 +50,7 @@ for kw in train_data['np2rests'].keys():
 
 keyword_embeddings = model.encode(list(keyword_set))
 
-with open('singapore-keywords_test.json', 'r') as r:
+with open('./datasets/singapore-keywords_test.json', 'r') as r:
     test_data = json.load(r)
 
 user_keywords = list(test_data['np2reviews'].keys())
@@ -102,7 +102,18 @@ if __name__ == "__main__":
         print(f"The positions in the dataset are: {result}")
 
 csv_file_path = "./result/results_w_pos(Singapore).csv"
+# csv_file_path = "./result/results.csv"
 
+# with open(csv_file_path, mode="w", newline="") as file:
+#     fieldnames = ['number', 'user', 'restaurant_name']
+#     writer = csv.DictWriter(file, fieldnames=fieldnames)
+#     writer.writeheader()
+#     number = 1
+#     for user, restaurant_indices in zip(test_users, results):
+#         for idx in restaurant_indices:
+#             restaurant_name = restaurant_set[idx]
+#             writer.writerow({'number': number, 'user': user, 'restaurant_name': restaurant_name})
+#             number += 1
 with open(csv_file_path, mode="w", newline="", encoding="utf-8") as file:
     fieldnames = ['number', 'user', 'user_keywords', 'restaurant_names', 'positions']
     writer = csv.DictWriter(file, fieldnames=fieldnames)
@@ -118,4 +129,5 @@ with open(csv_file_path, mode="w", newline="", encoding="utf-8") as file:
         writer.writerow({'number': number, 'user': user, 'user_keywords': user_keywords_str, 'restaurant_names': restaurant_names_str, 'positions': positions_str})
         number += 1
 
+# print(f"\nResults saved to: {csv_file_path}")
 print(f"{csv_file_path}")
