@@ -1,12 +1,10 @@
 import json
 import numpy as np
-import torch
+import json
+import numpy as np
 import csv
-from torch_geometric.data import Data
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-import pandas as pd
-import matplotlib.pyplot as plt
 
 model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
 
@@ -39,7 +37,7 @@ restaurant_set = set(listres)
 
 keyword_set = list(keyword_set)
 restaurant_set = list(restaurant_set)
-restaurants = len(listres)
+restaurants = len(listres)  
 num_keywords = len(keyword_set)
 num_restaurants = len(restaurant_set)
 a = np.zeros((num_keywords, num_restaurants))
@@ -84,6 +82,7 @@ for i, user_kw in enumerate(test_users2kw):
 
 test_users2kw = filtered_keywords
 
+
 results = []
 for kw in test_users2kw:
     t = np.zeros((1, len(keyword_set)))
@@ -93,14 +92,16 @@ for kw in test_users2kw:
             idx_kw = keyword_set.index(keys)
             t[0][idx_kw] = 1
     R = np.dot(t, a)
-    result = np.argsort(R[0])[::-1][:10]
+    result = np.argsort(R[0])[::-1][:20]
     results.append(result)
 
 if __name__ == "__main__":
-        for i, result in enumerate(results):
-            restaurant_names = [restaurant_set[idx] for idx in result]
-            print(f"The result for user {i} is: {restaurant_names}")
+    for i, result in enumerate(results):
+        restaurant_names = [restaurant_set[idx] for idx in result]
+        print(f"The result for user {i + 1} is: {restaurant_names}")
+        print(f"The positions in the dataset are: {result}")
 
+csv_file_path = "./result/results_w_pos(Singapore).csv"
 # csv_file_path = "./result/results.csv"
 
 # with open(csv_file_path, mode="w", newline="") as file:
@@ -113,5 +114,20 @@ if __name__ == "__main__":
 #             restaurant_name = restaurant_set[idx]
 #             writer.writerow({'number': number, 'user': user, 'restaurant_name': restaurant_name})
 #             number += 1
+with open(csv_file_path, mode="w", newline="", encoding="utf-8") as file:
+    fieldnames = ['number', 'user', 'user_keywords', 'restaurant_names', 'positions']
+    writer = csv.DictWriter(file, fieldnames=fieldnames)
+    writer.writeheader()
+    number = 1
+
+    for user, user_kw, restaurant_indices in zip(test_users, test_users2kw, results):
+        restaurant_names = [restaurant_set[idx] for idx in restaurant_indices]
+        restaurant_names_str = ", ".join(restaurant_names)
+        positions_str = ", ".join(map(str, restaurant_indices))
+        user_keywords_str = ", ".join(user_kw)
+
+        writer.writerow({'number': number, 'user': user, 'user_keywords': user_keywords_str, 'restaurant_names': restaurant_names_str, 'positions': positions_str})
+        number += 1
 
 # print(f"\nResults saved to: {csv_file_path}")
+print(f"{csv_file_path}")
