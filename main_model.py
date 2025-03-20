@@ -118,6 +118,35 @@ for idx, (user, candidate_indices) in enumerate(zip(test_users, results)):
     final_results.append(re_ranked)
     print(f"Re-ranked results for user {user}: {re_ranked}")
 
+
+# Function return candidate restaurant in dictionary type to use for the System
+def generate_results(test_users, results, test_users2kw, restaurant_set, re_ranked):
+    output_data = {}
+
+    for idx, (user, restaurant_indices) in enumerate(zip(test_users, results)):
+        user_data = {}
+
+        user_keywords = test_users2kw[idx]
+
+        candidate_restaurants = [restaurant_set[i] for i in restaurant_indices]
+
+        re_ranked_restaurants = re_ranked[idx]
+
+        positions = [str(i) for i in restaurant_indices]  
+
+        user_data["kw"] = user_keywords[:10]  
+        user_data["candidate"] = re_ranked_restaurants[:10] 
+        user_data["positions"] = positions[:10]  
+        output_data[user] = user_data
+
+    return output_data 
+
+
+result_dict = generate_results(test_users, results, test_users2kw, restaurant_set, final_results)
+print(result_dict)  
+
+
+# Function to save the result to a json file for quick checking
 def save_results_to_json(test_users, results, test_users2kw, restaurant_set, re_ranked, file_path='./result/results(afterLLM).json'):
     output_data = {}
     for idx, (user, restaurant_indices) in enumerate(zip(test_users, results)):
