@@ -102,6 +102,9 @@
         <mxCell id="EhBfr1RdsiaJjfYOSPly-33" value="Return to Display" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="322.5" y="460" width="60" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="EhBfr1RdsiaJjfYOSPly-34" value="Database" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="55" width="70" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
