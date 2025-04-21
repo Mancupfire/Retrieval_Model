@@ -15,7 +15,7 @@ internal_styles = {
     "container": {
         "fontFamily": "Arial, sans-serif",
         "padding": "20px",
-        "maxWidth": "800px",
+        "maxWidth": "1000px",
         "margin": "0 auto"
     },
     "header": {
@@ -86,8 +86,36 @@ internal_styles = {
 # Cytoscape Stylesheet
 # ------------------------------------------------------------------------------
 cytoscape_stylesheet = [
-    {"selector": ".node-keyword", "style": {"label": "data(label)", "background-color": "#FF5733"}},
-    {"selector": ".node-restaurant", "style": {"label": "data(label)", "background-color": "#33FF57"}}
+    {
+    "selector": ".node-keyword", 
+    "style": {
+        "label": "data(label)", 
+        "background-color": "#33FF57",
+        "border-width": "0px",         # thickness of the border
+        "border-style": "solid",       # solid line
+        "border-color": "black",       # black border
+        "shadow-blur": 6,              # how much the shadow spreads
+        "shadow-color": "rgba(0,0,0,0.4)",  # semi‑transparent black
+        "shadow-opacity": 0.6,         # overall shadow opacity
+        "shadow-offset-x": 2,          # horizontal shadow offset
+        "shadow-offset-y": 2   
+        }
+    },
+    {
+    "selector": ".node-restaurant", 
+    "style": {
+         "label": "data(label)", 
+         "background-color": "#ffffd4",
+         "border-width": "3px",         # thickness of the border
+        "border-style": "solid",       # solid line
+        "border-color": "black",       # black border
+        "shadow-blur": 6,              # how much the shadow spreads
+        "shadow-color": "rgba(0,0,0,0.4)",  # semi‑transparent black
+        "shadow-opacity": 0.6,         # overall shadow opacity
+        "shadow-offset-x": 2,          # horizontal shadow offset
+        "shadow-offset-y": 2  
+         }
+    }
 ]
 
 # ------------------------------------------------------------------------------
@@ -173,13 +201,13 @@ def compute_dynamic_yellow(connection_count):
     Otherwise: #33FF57 (fallback)
     """
     if connection_count == 2:
-        return "#FFEC8B"
+        return "#fed98e"
     elif connection_count == 3:
-        return "#FFD700"
+        return "#fe9929"
     elif connection_count == 4:
-        return "#FFF68F"
+        return "#d95f0e"
     elif connection_count >= 5:
-        return "#FFF8DC"
+        return "#993404"
     else:
         return "#33FF57"  # Fallback color
 
